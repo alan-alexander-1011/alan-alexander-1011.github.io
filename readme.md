@@ -1,7 +1,7 @@
 **Hi, I'm AlanZMD**
 
 About me:
->A amateur Vietnamese programmer (might be software engineer in the future).\
+>A amateur Vietnamese programmer (might be software engineer/cyber security in the future).\
 Now, I'm using Python as my main programming language💻.\
 📖I'm learning C++,Web3.\
 🛠I'm working on two of my projects are: **Discord.py** bot and **Kingdom of Ants** game.🎮\
