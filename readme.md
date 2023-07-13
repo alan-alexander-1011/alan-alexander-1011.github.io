@@ -8,4 +8,6 @@ Now, I'm using Python as my main programming language💻.\
 And i store my (useless/test)code on [My Mediafire(test folder)](https://www.mediafire.com/folder/hx5o8enbyn1nt/My_test_folder).\
 My [virtual machine files/folders](https://www.mediafire.com/folder/8cnsftlplsolq/virutal_machine) (might useful)
 
+[![My Codewars](https://www.codewars.com/users/alanzmd/badges/large)](https://www.codewars.com/users/alanzmd/badges/large)
+
 [![trophy](https://github-profile-trophy.vercel.app/?username=AlanZMD)](https://github.com/ryo-ma/github-profile-trophy)
