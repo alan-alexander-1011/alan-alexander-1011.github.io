@@ -10,6 +10,6 @@ My [virtual machine files/folders](https://www.mediafire.com/folder/8cnsftlplsol
 
 [![My Codewars](https://www.codewars.com/users/alanzmd/badges/large)](https://www.codewars.com/users/alanzmd/badges/large)
 
-[![trophy](https://github-profile-trophy.vercel.app/?username=AlanZMD)](https://github.com/ryo-ma/github-profile-trophy)
+[![trophy](https://github-profile-trophy.vercel.app/?username=alan-alexander-2011)](https://github.com/ryo-ma/github-profile-trophy)
 
-[![Alan's GitHub stats](https://github-readme-stats.vercel.app/api?username=AlanZMD)](https://github.com/anuraghazra/github-readme-stats)
+[![Alan's GitHub stats](https://github-readme-stats.vercel.app/api?username=alan-alexander-2011)](https://github.com/anuraghazra/github-readme-stats)
