@@ -1,0 +1,76 @@
+html {
+    background-color: #1b1b1b !important;
+    font-family: "Ubuntu", "Ubuntu Mono", "Cascadia Code", "Cascadia Code Mono", "Lucida Console", "Lucida Sans Unicode", monospace;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+.content {
+    margin-top: 0px;
+    position: relative;
+    border-left: 2px solid #fff;  /* Add a white border on the left side */
+    border-right: 2px solid #fff;  /* Add a white border on the right side */
+    width: calc(100% - 700px);  /* Adjust the width to span the remaining space */
+    height: 100%;
+    margin-left: 350px;  /* Keep the left margin for spacing */
+    margin-right: 350px;  /* Keep the right margin for spacing */
+    padding: 20px;  /* Add padding to the content for better appearance */
+}
+
+#background-iframe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    border: none;
+}
+
+a{
+    color:white;
+}
+.profile-picture {
+    position: absolute;
+    top: 30px;
+    left: 70px; /* Adjust the left position to move it to the right */
+    width: 200px; /* Set the width of your profile picture */
+    height: 200px; /* Set the height of your profile picture */
+    border-radius: 50%; /* Create a circular mask */
+    overflow: hidden; /* Hide anything outside the circular mask */
+    border: solid white 2px;
+}   
+
+.left-side {
+    text-align: center; /* Center the text */
+    margin-top: 20px; /* Add some top margin for spacing */
+}
+
+.left-side h4 {
+    color: #fff; /* Text color */
+    margin: 0; /* Remove default margin */
+}
+
+.profile-picture img {
+    width: 100%; /* Make sure the image fills the circular mask */
+    height: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #ffffff !important;
+    z-index: 1;
+    position: relative;
+    padding: 3px;
+}
+
+p {
+    color: #fff !important;
+    z-index: 1;
+    position: relative;
+    padding: 3px;
+}
+
