@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alanzmd page</title>
+    <link rel="stylesheet" href="../theme/style.css">
+    <link rel="stylesheet" href="../theme/prism.css">
+</head>
+<body>
+    <div class="profile-picture">
+        <img src="../good ava with real pic.png" alt="Profile Picture">
+    </div>
+    <div class="content">
+<h1><strong>PYmacro</strong>: <strong>a macro system in python</strong></h1>
+
+<p>i made a simple macro system from python that uses json as a macro file. This article was made because i want to how that show does this work. and the other reason is the main tutorial is on the pymacro github repo. So let's start:)</p>
+
+<p>My code is not optimized and may be a little bit unreadable so expect bad code or slow code. </p>
+
+<h2>libraries:</h2>
+
+<pre><code class="language-python">
+import pyautogui            #for simulating mouse movement and keyboard keys.
+import time                 #for delay command
+from pynput import keyboard #for detecting keyboard bindings
+import json                 #for reading macro files 
+import os                   #for path
+</code></pre>
+
+<h2>list of special keys:</h2>
+
+<p>This is a simple list of special keys that can be translate from "slang" like lshift to shift_l to use with pyautogui.</p>
+
+<pre><code class="language-python">
+special_keys = {
+    "lshift": "shift",
+    "rshift": "shift_r",
+    "lctrl": "ctrl_l",
+    "rctrl": "ctrl_r",
+    "lalt": "alt_l",
+    "ralt": "alt_gr",
+    "backspace": "backspace",
+    "tab": "tab",
+    "enter": "enter",
+    "esc": "esc",
+    "insert": "insert",
+    "delete": "delete",
+    "home": "home",
+    "end": "end",
+    "pageup": "pageup",
+    "pagedown": "pagedown",
+    "up": "up",
+    "down": "down",
+    "left": "left",
+    "right": "right",
+    "f1": "f1",
+    "f2": "f2",
+    "f3": "f3",
+    "f4": "f4",
+    "f5": "f5",
+    "f6": "f6",
+    "f7": "f7",
+    "f8": "f8",
+    "f9": "f9",
+    "f10": "f10",
+    "f11": "f11",
+    "f12": "f12",
+    "capslock": "caps_lock",
+    "numlock": "num_lock",
+    "scrolllock": "scroll_lock",
+    "printscreen": "print_screen",
+    "pause": "pause",
+    "menu": "menu",
+    "space": "space",
+    "quote": "quote",
+    "backquote": "backquote",
+    "tilde": "~",
+    "comma": ",",
+    "period": ".",
+    "slash": "/",
+    "backslash": "\\",
+    "semicolon": ";",
+    "lbracket": "(",
+    "rbracket": ")",
+    "minus": "-",
+    "equals": "=",
+    "lparen": "(",
+    "rparen": ")",
+    "underscore": "_",
+    "plus": "+",
+    "asterisk": "*",
+    "ampersand": "&",
+    "caret": "^",
+    "percent": "%",
+    "dollar": "$",
+    "hash": "#",
+    "at": "@",
+    "exclamation": "!",
+    "colon": ":",
+    "question": "?",
+    "bar": "|",
+    "greater": ">",
+    "less": "<",
+    "doublequote": "\"",
+    "backtick": "`",
+    "braceleft": "{",
+    "braceright": "}",
+    "bracketleft": "(",
+    "bracketright": ")",
+    "pipe": "|",
+    "singlequote": "'",
+}
+</code></pre>
+
+<h1>macro part</h1>
+
+<h2>listing of macro in startup of program</h2>
+
+<p>this code will run on startup of program to list macros and show the bind of it.</p>
+
+<pre><code class="language-python">
+err_flag = False
+print("macros:")
+for macrofile in os.listdir("./macros"):
+    with open(f"./macros/{macrofile}", "r") as f:
+        try:
+            bind = json.load(f)["bind"]
+            print(f"macro \"{os.path.splitext(macrofile)[0]}\" binded to {bind}")
+        except IndexError:
+            err_flag = not err_flag
+            pyautogui.alert(f"macro \"{os.path.splitext(macrofile)[0]}\" doesnt have a bind")
+        except json.JSONDecodeError:
+            err_flag = not err_flag
+            pyautogui.alert(f"macro \"{os.path.splitext(macrofile)[0]}\" doesnt have anything in it.")
+
+if err_flag:
+    exit(-1)
+</code></pre>
+
+<p>as you can see, it will cycles through the folder macros and try to open json files. if that is not json files or it got an DecodeError then it will show a alert box using pyautogui. After the error, the error flag will be set to True and after the loop it will exit with the code -1</p>
+
+<h2>and now, the  compute part.</h2>
+
+<p>so first thing first, failsafe:</p>
+
+<pre><code class="language-python">
+pyautogui.FAILSAFE = True
+</code></pre>
+
+<p>after that this is the code running when on click of <strong>any</strong> key strokes (demonstrated part by part):</p>
+
+<p>checking for bind by first, translating to the key to compare to pyautogui key naming to do the macro.</p>
+
+<pre><code class="language-python">
+def on_click(key):
+    for macrofile in os.listdir("./macros"):
+        with open(f"./macros/{macrofile}", "r") as f:
+            data = json.load(f)
+
+        # Extract key without single quotes if present
+        if isinstance(key, keyboard.KeyCode) and str(key).startswith("'") and str(key).endswith("'"):
+            pressed_key = str(key).split("'")[-2]
+        else:
+            pressed_key = special_keys.get(str(key).split(".")[-1], str(key).split(".")[-1])
+        if special_keys.get(data["bind"], data["bind"]) == pressed_key:
+</code></pre>
+
+<p>Then, if the condition is true, then the code will continue.\
+First it will make a macros list by splitting through the semicolon.:</p>
+
+<pre><code class="language-python">
+            macros:list[str] = data["macro"].lower().split(";")
+</code></pre>
+
+<p>Then it will remove the trailing whitespace to reduce the possibility of an error:</p>
+
+<pre><code class="language-python">
+            for macro in macros:
+                macro = macro.strip()
+</code></pre>
+
+<p>Now. The first command. move_mouse, the command will move the mouse to the position of the screen or relative to it.</p>
+
+<p>First, move mouse to the position relative to it:</p>
+
+<pre><code class="language-python">
+                if macro.find("move_mouse") != -1:
+                    arg = macro.split("move_mouse")[-1]
+                    if arg.find("left") != -1 or arg.find("right") != -1 or arg.find("up") != -1 or arg.find("down") != -1:
+                        if arg.find("up") != -1:
+                            yoff = -int(arg.split("up")[1])
+                        elif arg.find("down") != -1:
+                            yoff = int(arg.split("down")[1])
+                        else:
+                            yoff=0
+
+                        if arg.find("left") != -1:
+                            xoff = -int(arg.split("left")[1])
+                        elif arg.find("right") != -1:
+                            xoff = int(arg.split("right")[1])
+                        else:
+                            xoff=0
+
+                        pyautogui.moveRel(xoff, yoff)
+</code></pre>
+
+<p>if the condition doesnt match, that means that the macro want it to move to a specific position in the screen.</p>
+
+<pre><code class="language-python">
+                    else:
+                        pyautogui.moveTo(int(arg.split(",")[0]), int(arg.split(",")[-1]))
+</code></pre>
+
+<p>these are simple code, i know you will understand if you have the basic of python</p>
+
+<pre><code class="language-python">
+                elif macro.find("keydown ") != -1:
+                    arg = macro.split("keydown ")[-1]
+                    pyautogui.keyDown(special_keys.get(arg, arg))
+                elif macro.find("keyup ") != -1:
+                    arg = macro.split("keyup ")[-1]
+                    pyautogui.keyUp(special_keys.get(arg, arg))
+                elif macro.find("delay ") != -1:
+                    arg = macro.split("delay ")[-1]
+                    time.sleep(float(arg))
+                elif macro.find("type ") != -1:
+                    arg = macro.split("type ")[-1]
+                    pyautogui.typewrite(arg,0.009) #type fast
+                else: #press fast
+                    k=special_keys.get(macro, macro)
+                    pyautogui.keyDown(k) #keydown
+                    #time.sleep(0.098)
+                    pyautogui.keyUp(k) #keyup
+</code></pre>
+
+<p>the listener to listen to bind</p>
+
+<pre><code class="language-python">
+with keyboard.Listener(on_press=on_click) as listener:
+    listener.join()
+</code></pre>
+
+<p>The license is my own: MIT/GU-NNoA-LF</p>
+
+    </div>
+    <script type="text/javascript" src="../javascripts/prism.js"></script>
+</body>
+</html>
